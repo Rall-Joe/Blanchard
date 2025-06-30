@@ -20,6 +20,7 @@ header {
     color: white;
     padding: 10px 0;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    position: relative; /* Nécessaire pour positionner le menu mobile */
 }
 
 header nav {
@@ -42,7 +43,7 @@ header nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
+    display: flex; /* Par défaut, les liens sont en ligne */
 }
 
 header nav ul li {
@@ -61,23 +62,43 @@ header nav ul li a:hover {
     color: #3498db;
 }
 
-header nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    padding: 5px 0;
-    transition: color 0.3s ease;
-}
-
-header nav ul li a:hover {
-    color: #3498db;
-}
-
 /* Style pour le lien actif */
 header nav ul li a.active {
     color: #3498db; /* Une couleur différente, par exemple bleu clair */
     border-bottom: 2px solid #3498db; /* Un soulignement */
-    /* Tu peux ajouter d'autres styles : font-weight plus lourd, background, etc. */
+}
+
+/* --- Styles pour le bouton burger (caché par défaut) --- */
+.nav-toggle {
+    display: none; /* Cache le bouton burger sur les grands écrans */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    position: relative; /* Pour positionner les spans */
+    z-index: 100; /* Assure qu'il est au-dessus du reste */
+}
+
+.burger-icon {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: white; /* Couleur des barres du burger */
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+
+/* Quand le menu est ouvert, transformer l'icône burger en croix */
+.nav-toggle.active .burger-icon:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.nav-toggle.active .burger-icon:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active .burger-icon:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
 }
 
 
@@ -129,8 +150,37 @@ header nav ul li a.active {
     color: white;
     text-align: center;
     padding: 100px 20px;
+    position: relative; /* Nécessaire pour le calque sombre */
+    min-height: 200px; /* Hauteur minimale pour que le calque s'applique correctement */
+    display: flex; /* Utilise flexbox pour centrer le contenu verticalement */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Important pour que le ::before ne dépasse pas */
 }
 
+/* Calque sombre pour améliorer la lisibilité du texte sur l'image de fond */
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Calque noir semi-transparent (50% d'opacité) */
+    z-index: 1; /* Assure que le calque est sous le texte */
+}
+
+/* Assure que le texte et les boutons sont au-dessus du calque */
+#hero h1, #hero p, #hero .button-primary, #hero .button-secondary {
+    position: relative;
+    z-index: 2; /* Plus élevé que le calque ::before */
+    margin-bottom: 20px; /* Ajoute un peu d'espace entre les éléments */
+}
+
+#hero .button-primary, #hero .button-secondary {
+    margin: 10px; /* Espacement entre les boutons */
+}
 
 #hero h1 {
     font-size: 3em;
@@ -141,7 +191,6 @@ header nav ul li a.active {
     font-size: 1.2em;
     margin-bottom: 30px;
 }
-
 
 
 /* Pied de page (Footer) */
@@ -162,49 +211,6 @@ footer {
 
 .social-links a:hover {
     color: #3498db;
-}
-
-/* Styles pour les sections générales du contenu */
-section {
-    background-color: white;
-    margin: 20px auto;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    max-width: 1000px; /* Limite la largeur des sections pour une meilleure lisibilité */
-}
-
-section h2 {
-    color: #2c3e50;
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-/* Styles Responsifs (ajustez selon vos besoins) */
-@media (max-width: 768px) {
-    header nav {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    header nav ul {
-        flex-direction: column;
-        width: 100%;
-        margin-top: 10px;
-        display: none; /* Cache le menu par défaut pour un menu burger */
-    }
-
-    header nav ul.active {
-        display: flex; /* Affiche le menu quand il est actif */
-    }
-
-    header nav ul li {
-        margin: 10px 0;
-    }
-
-    #hero h1 {
-        font-size: 2em;
-    }
 }
 
 /* Styles pour les sections générales du contenu */
@@ -482,27 +488,76 @@ section h2 {
 }
 
 
-/* Styles Responsifs */
-@media (max-width: 768px) {
-    .team-members {
-        flex-direction: column;
-        align-items: center;
+/* --- Styles Responsifs (Media Queries) --- */
+@media (max-width: 768px) { /* Applique ces styles quand la largeur de l'écran est de 768px ou moins */
+    header nav {
+        flex-direction: column; /* La navigation passe en colonne */
+        align-items: flex-start; /* Aligne les éléments à gauche */
     }
 
-    .sermon-grid {
-        grid-template-columns: 1fr; /* Une colonne sur mobile */
+    .logo {
+        margin-bottom: 10px; /* Espace entre le logo et le menu burger */
     }
 
-    .sermon-actions {
-        flex-direction: column;
-        display: flex;
-        align-items: center;
+    /* Afficher le bouton burger sur mobile */
+    .nav-toggle {
+        display: block; /* Affiche le bouton burger */
+        position: absolute; /* Positionne le burger en haut à droite */
+        right: 20px;
+        top: 20px;
     }
 
-    .sermon-actions .button-primary,
-    .sermon-actions .button-secondary {
-        width: 80%; /* Occupe plus de largeur sur mobile */
-        margin-bottom: 10px;
+    header nav ul {
+        display: none; /* Cache la liste de liens par défaut */
+        flex-direction: column; /* Les liens s'empilent verticalement */
+        width: 100%; /* La liste prend toute la largeur */
+        background-color: #2c3e50; /* Couleur de fond pour le menu ouvert */
+        position: absolute; /* Positionne le menu sous le header */
+        top: 60px; /* Ajuste en fonction de la hauteur de ton header */
+        left: 0;
+        padding: 20px 0;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        z-index: 99; /* Assure qu'il est au-dessus du contenu principal */
+    }
+
+    header nav ul.active {
+        display: flex; /* Affiche la liste de liens quand elle a la classe 'active' */
+    }
+
+    header nav ul li {
+        margin: 10px 0; /* Espace vertical entre les liens */
+        text-align: center; /* Centre le texte des liens */
+        width: 100%;
+    }
+
+    header nav ul li a {
+        padding: 10px 0;
+        display: block; /* Rendre le lien entier cliquable */
+    }
+
+    /* Ajustement des sections pour mobile */
+    #hero {
+        padding: 60px 20px; /* Moins de padding sur mobile */
+        min-height: 400px; /* Ajuste la hauteur minimale */
+    }
+
+    #hero h1 {
+        font-size: 2em; /* Réduit la taille du titre */
+    }
+
+    #hero p {
+        font-size: 1em; /* Réduit la taille du paragraphe */
+    }
+
+    /* Autres ajustements pour les grilles et flexbox sur mobile */
+    .team-members, .sermon-grid {
+        flex-direction: column; /* Les éléments s'empilent verticalement */
+        align-items: center; /* Centrer les éléments */
+    }
+
+    .team-member, .sermon-item {
+        width: 90%; /* Occupe plus de largeur sur mobile */
+        margin-bottom: 20px; /* Espacement entre les éléments */
     }
 
     .social-links-big .button-tertiary {
@@ -511,9 +566,22 @@ section h2 {
         margin: 10px auto;
     }
 
-    .form-group input[type="text"],
-    .form-group input[type="email"],
-    .form-group textarea {
-        width: calc(100% - 20px); /* Ajustement pour le padding */
+    /* Ajustements des formulaires */
+    #contact-form form, #prayer-request form {
+        padding: 15px;
+    }
+
+    .form-group input, .form-group textarea {
+        width: calc(100% - 20px); /* Ajuste pour le padding */
+    }
+}
+
+/* Pour les très petits écrans (ex: petits smartphones) - optionnel */
+@media (max-width: 480px) {
+    header nav .logo a {
+        font-size: 1.5em; /* Réduire la taille du logo si nécessaire */
+    }
+    #hero h1 {
+        font-size: 1.8em;
     }
 }

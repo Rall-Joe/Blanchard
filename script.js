@@ -1,48 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Exemple simple : gestion d'un menu de navigation mobile (si vous en implémentez un)
-    const navToggle = document.querySelector('.nav-toggle'); // Vous devrez ajouter ce bouton dans votre HTML
-    const navMenu = document.querySelector('header nav ul');
-
-    if (navToggle && navMenu) {
-        navToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-    }
-
-    // Autres scripts JavaScript ici, par exemple pour des carrousels, des effets d'animation, etc.
-});
-
-//Pour dectecter les liens active dans la nav: Acueil, A propose, etc..
-
-document.addEventListener('DOMContentLoaded', () => {
     // --- GESTION DU LIEN DE NAVIGATION ACTIF ---
-    const currentPath = window.location.pathname; // Récupère le chemin de l'URL actuelle (ex: "/about.html")
-    const navLinks = document.querySelectorAll('header nav ul li a'); // Sélectionne tous les liens de navigation
+    // Sélectionne tous les liens de navigation dans l'en-tête
+    const navLinks = document.querySelectorAll('header nav ul li a');
+    // Récupère le chemin de l'URL actuelle du navigateur (ex: "/about.html")
+    const currentPath = window.location.pathname;
 
     navLinks.forEach(link => {
-        // Obtenir le chemin du lien (ex: "index.html", "about.html")
-        // On prend le dernier segment de l'URL (par exemple, "index.html" à partir de "http://monsite.com/index.html")
+        // Extrait le nom du fichier du lien (ex: "index.html" de "http://monsite.com/index.html")
         const linkPath = link.getAttribute('href').split('/').pop();
 
-        // Si le chemin actuel de la page correspond au chemin du lien, ajoute la classe 'active'
-        // Cas particulier pour la page d'accueil si elle est à la racine ("/")
+        // Vérifie si le chemin actuel de la page contient le chemin du lien
+        // et que le chemin du lien n'est pas vide (pour éviter les problèmes avec les liens vides)
         if (currentPath.includes(linkPath) && linkPath !== '') {
             link.classList.add('active');
-        } else if (currentPath === '/' || currentPath === '/index.html' && linkPath === 'index.html') {
-            // Gérer le cas où l'URL est juste la racine "/" ou "/index.html"
-            if (linkPath === 'index.html') {
-                link.classList.add('active');
-            }
+        }
+        // Gère le cas spécifique de la page d'accueil dont l'URL peut être "/" ou "/index.html"
+        else if ((currentPath === '/' || currentPath === '/index.html' || currentPath.endsWith('/')) && linkPath === 'index.html') {
+            link.classList.add('active');
         }
     });
 
-    // --- AUTRES SCRIPTS EXISTANTS (si tu as déjà un menu mobile, par exemple) ---
+    // --- GESTION DU MENU BURGER MOBILE ---
+    // Sélectionne le bouton du menu burger
     const navToggle = document.querySelector('.nav-toggle');
+    // Sélectionne la liste de liens de navigation
     const navMenu = document.querySelector('header nav ul');
 
+    // Vérifie si les éléments existent avant d'ajouter les écouteurs d'événements
     if (navToggle && navMenu) {
+        // Quand le bouton burger est cliqué
         navToggle.addEventListener('click', () => {
+            // Bascule la classe 'active' sur la liste de liens (pour l'afficher/la cacher)
             navMenu.classList.toggle('active');
+            // Bascule la classe 'active' sur le bouton burger (pour l'animation en croix)
+            navToggle.classList.toggle('active');
+        });
+
+        // Fermer le menu si un lien est cliqué (particulièrement utile sur mobile)
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                // Si le menu est ouvert (contient la classe 'active')
+                if (navMenu.classList.contains('active')) {
+                    // Retire la classe 'active' pour fermer le menu
+                    navMenu.classList.remove('active');
+                    // Retire la classe 'active' du bouton pour rétablir l'icône burger
+                    navToggle.classList.remove('active');
+                }
+            });
         });
     }
 });
