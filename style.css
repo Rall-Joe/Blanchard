@@ -61,6 +61,26 @@ header nav ul li a:hover {
     color: #3498db;
 }
 
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: #3498db;
+}
+
+/* Style pour le lien actif */
+header nav ul li a.active {
+    color: #3498db; /* Une couleur différente, par exemple bleu clair */
+    border-bottom: 2px solid #3498db; /* Un soulignement */
+    /* Tu peux ajouter d'autres styles : font-weight plus lourd, background, etc. */
+}
+
+
 /* Boutons */
 .button-primary, .button-secondary, .button-tertiary {
     display: inline-block;
