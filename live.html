@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live - Mon Ministère Évangélique</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">Mon Ministère</a>
+            </div>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="about.html">À Propos</a></li>
+                <li><a href="sermons.html">Prédications</a></li>
+                <li><a href="events.html">Événements</a></li>
+                <li><a href="live.html">Live</a></li>
+                <li><a href="donate.html">Dons</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section id="youtube-live">
+            <h2>Regarder le Culte en Direct</h2>
+            <p>Rejoignez-nous en direct pour nos cultes, enseignements et événements spéciaux. Si aucune diffusion n'est en cours, vous pouvez explorer nos vidéos précédentes.</p>
+            <div class="video-container">
+                <iframe
+                    width="100%"
+                    height="500"
+                    src="https://www.youtube.com/embed/YOUR_LIVE_STREAM_ID_OR_CHANNEL_LINK_FOR_LIVE"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <p>Veuillez rafraîchir la page si le live ne démarre pas automatiquement.</p>
+            <p class="live-info">Prochain live : Chaque Dimanche à 10h00 (Heure de Kinshasa).</p>
+            <div class="live-actions">
+                <a href="https://www.youtube.com/yourchannel" target="_blank" class="button-secondary">Visiter notre chaîne YouTube</a>
+                <a href="sermons.html" class="button-tertiary">Voir les prédications passées</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Mon Ministère. Tous droits réservés.</p>
+        <div class="social-links">
+            <a href="#" target="_blank">Facebook</a>
+            <a href="#" target="_blank">YouTube</a>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
